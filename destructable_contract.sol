@@ -12,3 +12,16 @@ contract Mortal {
     }
     
 }
+
+contract Greeter is Mortal {
+    string greeting;
+    
+    constructor(string _greeting) public {
+        greeting = _greeting;
+    }
+    
+    function greet() public constant returns (string) {
+        return greeting;
+    }
+}
+
