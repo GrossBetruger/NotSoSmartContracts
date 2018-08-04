@@ -4,9 +4,13 @@ contract Lottery {
     
     address owner; 
     
-    mapping (uint8 => string) private nameMap;
+    mapping (uint8 => string) public nameMap;
     
-    modifier OnlyOwner { require(msg.sender == owner); _; } 
+    modifier OnlyOwner { require(msg.sender == owner); _; }
+    
+    string public winner = "unknown";
+    
+    bool public alreadyDetermined = false;
     
     constructor () public {
         
@@ -25,11 +29,16 @@ contract Lottery {
         return uint8(uint256(keccak256(block.timestamp, block.difficulty))%6);
     }
     
-    function play() public OnlyOwner constant returns(string) {
+    function game() public OnlyOwner {
         
+        if (alreadyDetermined == true) {
+            return;
+        }
+        alreadyDetermined = true;
         uint8 result = random();
-        return nameMap[result];
-  
+        winner = nameMap[result];
+        
     }
     
 }
+
